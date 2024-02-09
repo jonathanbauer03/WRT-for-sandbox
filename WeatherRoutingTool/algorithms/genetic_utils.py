@@ -173,6 +173,27 @@ class GeneticCrossover(Crossover):
             child2 = np.concatenate((parent2[:idx2], parent1[idx1:]), axis=0)  # print(child1, child2)
         return child1, child2
 
+    def crossover_noint(self, parent1, parent2):
+        lenpar1 = len(parent1)
+        lenpar2 = len(parent2)
+        lenpar = min(lenpar1, lenpar2)
+
+        connect = random.randint(1, lenpar - 2)
+
+        _, _, start_indices = self.coords_to_index([(parent1[connect][0], parent1[connect][1])])
+        _, _, end_indices = self.coords_to_index([(parent2[connect][0], parent2[connect][1])])
+
+        shuffled_cost = self.get_shuffled_cost()
+        subpath, _ = route_through_array(shuffled_cost, start_indices[0], end_indices[0],
+                                         fully_connected=True, geometric=False)
+        _, _, subpath = self.index_to_coords(subpath)
+
+        child1 = np.concatenate((parent1[:connect], np.array(subpath), parent2[connect:]), axis=0)
+        child2 = np.concatenate((parent2[:connect], np.array(subpath), parent1[:connect]), axis=0)
+
+        return child1, child2
+
+
 
 class CrossoverFactory:
     def __init__(self):
@@ -191,6 +212,7 @@ class GridBasedMutation(GridMixin, Mutation):
     def __init__(self, grid, prob=0.4):
         super().__init__(grid=grid)
         self.prob = prob
+       # self.constraint_list = constraint_list
 
     def _do(self, problem, X, **kwargs):
         offsprings = np.zeros((len(X), 1), dtype=object)
@@ -198,7 +220,7 @@ class GridBasedMutation(GridMixin, Mutation):
         for idx, i in enumerate(X):
             # perform mutation with certain probability
             if np.random.uniform(0, 1) < self.prob:
-                mutated_individual = self.mutate(i[0])
+                mutated_individual = self.mutate_move(i[0])
                 # print("mutated_individual", mutated_individual, "###")
                 offsprings[idx][0] = mutated_individual
             # if no mutation
@@ -206,7 +228,7 @@ class GridBasedMutation(GridMixin, Mutation):
                 offsprings[idx][0] = i[0]
         return offsprings
 
-    def mutate(self, route):
+    def mutate_delete(self, route):
         size = len(route)
         start = random.randint(1, size - 2)
         end = random.randint(start, size - 2)
@@ -221,15 +243,54 @@ class GridBasedMutation(GridMixin, Mutation):
         newPath = np.concatenate((route[:start], np.array(subpath), route[end + 1:]), axis=0)
         return newPath
 
+    def mutate_move(self, route):
+        max_dist = 1
+        route_constrained = True
+
+        # while route_constrained is True:
+        size = len(route)
+        start = random.randint(1, size - 2)
+        end = random.randint(start, size - 2)
+
+        extend_rand = random.uniform(-1,1) * max_dist
+
+        # print('start_indices: ', start)
+        # print('end_indices: ', end)
+        # print('extend_rand: ', extend_rand)
+
+        route_segment = None
+        if start == end:
+            route_segment = [route[start]]
+        else:
+            route_segment = route[start:end+1]
+
+        # print('route_segment before: ', route_segment)
+
+        route_ind = start
+        for i in range(0,len(route_segment)):
+            route_segment[i] = (route_segment[i][0] + extend_rand, route_segment[i][1] + extend_rand)
+            route[route_ind] = route_segment[i]
+            route_ind = route_ind + 1
+
+        lat_route = np.array([x[0] for x in route])
+        lon_route = np.array([x[1] for x in route])
+        #is_constrained = [False for i in range(0, lat_route.shape[0])]
+        #is_constrained = self.constraint_list.safe_endpoint(lat_route, lon_route, None, is_constrained)
+
+        #if is_constrained.all() == False:
+        #    route_constrained = False
+
+        return route
+
 
 class MutationFactory:
     def __init__(self):
         pass
 
     @staticmethod
-    def get_mutation(mutation_type, grid=None):
+    def get_mutation(mutation_type, constraint_list, grid=None):
         if mutation_type == 'grid_based':
-            mutation = GridBasedMutation(grid)
+            mutation = GridBasedMutation(grid, constraint_list)
         else:
             msg = f"Mutation type '{mutation_type}' is invalid!"
             logger.error(msg)

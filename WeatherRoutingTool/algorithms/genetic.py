@@ -57,14 +57,14 @@ class Genetic(RoutingAlg):
 
     def execute_routing(self, boat: Boat, wt: WeatherCond, constraints_list: ConstraintsList, verbose=False):
         data = xr.open_dataset(self.weather_path)
-        lat_int, lon_int = 10, 10
+        lat_int, lon_int = 5, 5
         wave_height = data.VHM0.isel(time=0)
         wave_height = wave_height[::lat_int, ::lon_int]
         problem = RoutingProblem(departure_time=self.departure_time, boat=boat, constraint_list=constraints_list)
         initial_population = PopulationFactory.get_population(self.population_type, self.start, self.finish,
                                                               path_to_route_folder=self.path_to_route_folder,
                                                               grid=wave_height)
-        mutation = MutationFactory.get_mutation(self.mutation_type, grid=wave_height)
+        mutation = MutationFactory.get_mutation(mutation_type=self.mutation_type, constraint_list=constraints_list, grid=wave_height)
         crossover = CrossoverFactory.get_crossover()
         duplicates = RouteDuplicateElimination()
         res = self.optimize(problem, initial_population, crossover, mutation, duplicates)
