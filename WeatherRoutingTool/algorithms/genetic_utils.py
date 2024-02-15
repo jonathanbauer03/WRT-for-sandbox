@@ -6,6 +6,7 @@ from math import ceil
 
 import numpy as np
 from geographiclib.geodesic import Geodesic
+from geovectorslib import geod
 from pymoo.core.crossover import Crossover
 from pymoo.core.duplicate import ElementwiseDuplicateElimination
 from pymoo.core.mutation import Mutation
@@ -154,7 +155,7 @@ class GeneticCrossover(Crossover):
         for k in range(n_matings):
             # get the first and the second parent
             a, b = X[0, k, 0], X[1, k, 0]
-            Y[0, k, 0], Y[1, k, 0] = self.cross_over(a, b)
+            Y[0, k, 0], Y[1, k, 0] = self.crossover_noint(a, b)
         # print("Y:",Y)
         return Y
 
@@ -176,24 +177,61 @@ class GeneticCrossover(Crossover):
     def crossover_noint(self, parent1, parent2):
         lenpar1 = len(parent1)
         lenpar2 = len(parent2)
-        lenpar = min(lenpar1, lenpar2)
+        minlength = min(lenpar1, lenpar2)
 
-        connect = random.randint(1, lenpar - 2)
+        connect1 = random.randint(1, minlength - 2)
+        connect2 = random.randint(1, minlength - 2)
 
-        _, _, start_indices = self.coords_to_index([(parent1[connect][0], parent1[connect][1])])
-        _, _, end_indices = self.coords_to_index([(parent2[connect][0], parent2[connect][1])])
+        connect_child1 = self.get_connection(parent1[connect1][1], parent1[connect1][0], parent2[connect2][1], parent2[connect2][0])
+        connect_child2 = self.get_connection(parent2[connect1][1], parent2[connect1][0], parent1[connect2][1], parent1[connect2][0])
 
-        shuffled_cost = self.get_shuffled_cost()
-        subpath, _ = route_through_array(shuffled_cost, start_indices[0], end_indices[0],
-                                         fully_connected=True, geometric=False)
-        _, _, subpath = self.index_to_coords(subpath)
+        child1 = []
+        child2 = []
+        if not connect_child1:
+            child1 = np.concatenate((parent1[:(connect1 + 1)], parent2[connect2:]), axis=0)
+        else:
+            child1 = np.concatenate((parent1[:(connect1 + 1)], connect_child1, parent2[connect2:]), axis=0)
 
-        child1 = np.concatenate((parent1[:connect], np.array(subpath), parent2[connect:]), axis=0)
-        child2 = np.concatenate((parent2[:connect], np.array(subpath), parent1[:connect]), axis=0)
+        if not connect_child2:
+            child2 = np.concatenate((parent2[:(connect1+1)], parent1[connect2:]), axis=0)
+        else:
+            child2 = np.concatenate((parent2[:(connect1+1)], connect_child2, parent1[connect2:]), axis=0)
 
         return child1, child2
 
+    def get_connection(self, lat_start, lon_start, lat_end, lon_end):
+        connecting_line = []
+        point_distance = 50000
 
+        print('lat_start', lat_start)
+        print('lon_start', lon_start)
+        print('lat_end', lat_end)
+        print('lon_end', lon_end)
+
+        dist = geod.inverse([lat_start], [lon_start], [lat_end], [lon_end])
+        print('dist: ', dist['s12'][0])
+        npoints = round(dist['s12'][0]/point_distance)
+        print('npoints: ', npoints)
+
+        delta_lats = (lat_end - lat_start) / npoints
+        delta_lons = (lon_end - lon_start) / npoints
+
+        x0 = lat_start
+        y0 = lon_start
+
+        for ipoint in range(0, npoints-1):
+            x = x0 + delta_lats
+            y = y0 + delta_lons
+
+            connecting_line.append((y,x))
+
+            print('Connecting: Moving from (' + str(lat_start) + ',' + str(lon_start) + ') to (' + str(
+                lat_end) + ',' + str(lon_end), 0)
+
+            x0 = x
+            y0 = y
+
+        return connecting_line
 
 class CrossoverFactory:
     def __init__(self):
@@ -209,7 +247,7 @@ class GridBasedMutation(GridMixin, Mutation):
     """
     Custom class to define genetic mutation for routes
     """
-    def __init__(self, grid, prob=0.4):
+    def __init__(self, grid, prob=0.7):
         super().__init__(grid=grid)
         self.prob = prob
        # self.constraint_list = constraint_list
@@ -290,7 +328,7 @@ class MutationFactory:
     @staticmethod
     def get_mutation(mutation_type, constraint_list, grid=None):
         if mutation_type == 'grid_based':
-            mutation = GridBasedMutation(grid, constraint_list)
+            mutation = GridBasedMutation(grid)
         else:
             msg = f"Mutation type '{mutation_type}' is invalid!"
             logger.error(msg)
