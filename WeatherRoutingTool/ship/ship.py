@@ -117,7 +117,7 @@ class ConstantFuelBoat(Boat):
 
 class Tanker(Boat):
     # Connection to hydrodynamic modeling
-    #hydro_model: mariPower.ship
+    # hydro_model: mariPower.ship
     draught: float
 
     # additional information
@@ -132,9 +132,9 @@ class Tanker(Boat):
         self.environment_path = config.WEATHER_DATA
         self.courses_path = config.COURSES_FILE
         self.depth_path = config.DEPTH_DATA
-        #self.depth_data = mariPower.environment.EnvironmentalData_Depth(self.depth_path)
+        # self.depth_data = mariPower.environment.EnvironmentalData_Depth(self.depth_path)
 
-        #self.hydro_model = mariPower.ship.CBT()
+        # self.hydro_model = mariPower.ship.CBT()
         self.hydro_model.Draught_AP = np.array([config.BOAT_DRAUGHT_AFT])
         self.hydro_model.Draught_FP = np.array([config.BOAT_DRAUGHT_FORE])
         self.hydro_model.Roughness_Level = np.array([config.BOAT_ROUGHNESS_LEVEL])
@@ -160,7 +160,7 @@ class Tanker(Boat):
         logger.info(form.get_log_step('path to depth data' + self.depth_path, 1))
 
     def init_hydro_model_single_pars(self):
-        #self.hydro_model = mariPower.ship.CBT()
+        # self.hydro_model = mariPower.ship.CBT()
         # shipSpeed = 13 * 1852 / 3600
         self.hydro_model.WindDirection = math.radians(90)
         self.hydro_model.WindSpeed = 0
@@ -503,8 +503,8 @@ class Tanker(Boat):
         #         logger.warning(f"{idx}: status.shape={status.shape}, status={status.flatten()[idx]}, "
         #                        f"message={message.flatten()[idx]}")
 
-       # ds_read = xr.open_dataset(self.courses_path)
-        #return ds_read
+        # ds_read = xr.open_dataset(self.courses_path)
+        # return ds_read
 
     ##
     # @brief splits data in 'courses netCDF' one bunches per course per space point, sends them to mariPower
@@ -535,15 +535,14 @@ class Tanker(Boat):
             ds_read_temp.coords['it'] = [1]
             ds_read_temp.to_netcdf(filename_single, mode='w')
             ds_read_temp.close()
-            #ship = mariPower.ship.CBT()
+            # ship = mariPower.ship.CBT()
             if (debug):
                 ds_read_test = xr.load_dataset(filename_single)
                 courses_test = ds_read_test['courses']
                 form.print_step('courses_test' + str(courses_test.to_numpy()), 1)
                 form.print_step('speed' + str(ds_read_test['speed'].to_numpy()), 1)
             # start_time = time.time()
-            # mariPower.__main__.PredictPowerOrSpeedRoute(ship, filename_single, self.environment_path, None, False,
-            # False)
+            # mariPower.__main__.PredictPowerOrSpeedRoute(ship, filename_single, self.environment_path, None, False,False)
             # form.print_current_time('time for mariPower request:', start_time)
 
             ds_temp = xr.load_dataset(filename_single)
