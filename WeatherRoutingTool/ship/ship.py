@@ -495,7 +495,7 @@ class Tanker(Boat):
     #             mariPower_ship, self.courses_path, self.environment_path, self.depth_data)
     #     else:
     #         status, message, envDataRoute = mariPower.__main__.PredictPowerOrSpeedRoute(
-    #             mariPower_ship, self.courses_path, self.environment_path) 
+    #             mariPower_ship, self.courses_path, self.environment_path)
         # form.print_current_time('time for mariPower request:', start_time)
         # ToDo: read messages from netCDF and store them in ship_params (changes in mariPower necessary)
         # for idx in range(0, len(status.flatten())):
@@ -542,7 +542,8 @@ class Tanker(Boat):
                 form.print_step('courses_test' + str(courses_test.to_numpy()), 1)
                 form.print_step('speed' + str(ds_read_test['speed'].to_numpy()), 1)
             # start_time = time.time()
-            # mariPower.__main__.PredictPowerOrSpeedRoute(ship, filename_single, self.environment_path, None, False,False)
+            # mariPower.__main__.PredictPowerOrSpeedRoute(ship, filename_single, self.environment_path, None, False,
+            # False)
             # form.print_current_time('time for mariPower request:', start_time)
 
             ds_temp = xr.load_dataset(filename_single)
