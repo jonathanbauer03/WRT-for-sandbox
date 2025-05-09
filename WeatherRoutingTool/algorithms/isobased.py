@@ -494,7 +494,7 @@ class IsoBased(RoutingAlg):
         lons_per_step = self.lons_per_step[:, idxs]
 
         route, = ax.plot(lons_per_step,
-                         lats_per_step, color="firebrick")
+                         lats_per_step, color="orange", linewidth=3)
 
         route_ensemble = []
         route_ensemble.append(route)

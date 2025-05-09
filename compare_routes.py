@@ -23,7 +23,7 @@ def plot_power_vs_dist(rp_list, rp_str_list, scenario_str, power_type='fuel'):
     ax.tick_params(labelleft=False, left=False, top=True)   # hide y labels
     ax.text(0.95, 0.96, scenario_str, verticalalignment='top', horizontalalignment='right',
             transform=ax.transAxes)
-    plt.savefig(figurefile + '/' + power_type + '_vs_dist.png')
+    plt.savefig('/home/jovyan/Images-WRT' + '/' + power_type + '_vs_dist.png')
 
 
 def plot_acc_power_vs_dist(rp_list, rp_str_list, power_type='fuel'):
@@ -33,7 +33,7 @@ def plot_acc_power_vs_dist(rp_list, rp_str_list, power_type='fuel'):
 
     ax.legend(loc='upper center')
     # ax.set_ylim(0, 0.016)
-    plt.savefig(figurefile + '/' + power_type + 'acc_vs_dist.png')
+    plt.savefig('/home/jovyan/Images-WRT' + '/' + power_type + 'acc_vs_dist.png')
 
 
 def plot_power_vs_coord(rp_list, rp_str_list, coordstring, power_type='fuel'):
@@ -42,7 +42,7 @@ def plot_power_vs_coord(rp_list, rp_str_list, coordstring, power_type='fuel'):
         rp_list[irp].plot_power_vs_coord(ax, graphics.get_colour(irp), rp_str_list[irp], coordstring, power_type)
     ax.legend(loc='lower left')
     # ax.set_ylim(0, 0.016)
-    plt.savefig(figurefile + '/' + power_type + '_vs_' + coordstring + '.png')
+    plt.savefig('/home/jovyan/Images-WRT' + '/' + power_type + '_vs_' + coordstring + '.png')
 
 
 def plot_power_vs_dist_ratios(rp_list, rp_str_list, scenario_str, power_type='fuel'):
@@ -83,34 +83,28 @@ if __name__ == "__main__":
 
     figurefile = args.figure_dir
 
-    filename1 = ("/home/kdemmich/MariData/IMDC_paper/Find_alternative_route_24_02_06/MedSea/Routes"
-                 "/route_real_weather_original.json")
-    filename2 = "/home/kdemmich/MariData/IMDC_paper/Find_alternative_route_24_02_06/MedSea/Routes/min_time_route.json"
-
+    filename1 = ("min_time_route.json")
     rp_read1 = RouteParams.from_file(filename1)
-    rp_read2 = RouteParams.from_file(filename2)
-
-    rp_1_str = 'original route'
-    rp_2_str = 'Isofuel routing'
+    rp_1_str = 'speedy isobased routing'
 
     scenario_str = 'scenario: Mediterranean Sea'
 
-    rp_list = [rp_read1, rp_read2]
-    rp_str_list = [rp_1_str, rp_2_str]
+    rp_list = [rp_read1]
+    rp_str_list = [rp_1_str]
 
     windfile = "/home/kdemmich/MariData/IMDC_paper/weather_imdc_route_16.nc"
     depth_data = ""
     set_up_logging()
 
-    do_plot_weather = True
+    do_plot_weather = False
     do_plot_route = False
-    do_plot_power_vs_dist = False
+    do_plot_power_vs_dist = True
     do_plot_fuel_vs_dist = False
     do_plot_acc_fuel_vs_dist = False
 
-    do_plot_power_vs_lon = False
+    do_plot_power_vs_lon = True
     do_plot_fuel_vs_lon = False
-    do_plot_power_vs_lat = False
+    do_plot_power_vs_lat = True
     do_plot_fuel_vs_lat = False
 
     do_plot_power_vs_dist_showing_weather = False
@@ -158,7 +152,7 @@ if __name__ == "__main__":
         for irp in range(0, len(rp_list)):
             ax = rp_list[irp].plot_route(ax, graphics.get_colour(irp), rp_str_list[irp])
         ax.legend()
-        plt.savefig(figurefile + '/route_waterdepth.png')
+        plt.savefig('/home/jovyan/Images-WRT' + '/route_waterdepth.png')
 
     ##
     # plotting  vs. distance
