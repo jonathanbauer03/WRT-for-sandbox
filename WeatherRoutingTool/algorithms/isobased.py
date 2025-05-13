@@ -1180,7 +1180,7 @@ class IsoBased(RoutingAlg):
         longitudes_T = longitudes.T
         # Plotting each route
         for lat_segment, lon_segment in zip(latitudes_T, longitudes_T):
-            self.ax.plot(lon_segment, lat_segment, color="firebrick", linestyle='-', linewidth=0.6)
+            self.ax.plot(lon_segment, lat_segment, color="orange", linestyle='-', linewidth=1)
             # fig.canvas.draw()
             # fig.canvas.flush_events()
 
