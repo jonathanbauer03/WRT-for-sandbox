@@ -359,30 +359,6 @@ class RouteParams():
                 markersize=10)
         return ax
 
-    def plot_route_with_depth(self, colour, label, linestyle=False):
-        fig = self.fig
-        fig, ax = graphics.generate_basemap(self.fig, self.depth, self.start,
-                                            self.finish)
-
-        lats = self.lats_per_step
-        lons = self.lons_per_step
-
-        if linestyle:
-            ax.plot(lons, lats, color=colour, label=label, linewidth=2, linestyle='dashdot')
-        else:
-            ax.plot(lons, lats, color=colour, label=label, linewidth=2)
-
-        ax.plot(self.start[1], self.start[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, markersize=10)
-        ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour,
-                markersize=10)
-
-        fig.canvas.draw()
-        fig.canvas.flush_events()
-        final_path = self.figure_path + '/fig' + str(
-            self.count) + '_route_' + '.png'
-        logger.info('Save updated figure to ' + final_path)
-        plt.savefig(final_path)
-
     def get_power_type(self, power_type):
         if power_type == 'power':
             return {"value": self.ship_params_per_step.get_power(), "label": 'power consumption', "unit": u.Watt}

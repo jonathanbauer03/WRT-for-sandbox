@@ -299,14 +299,14 @@ def generate_basemap(fig, depth, start=None, finish=None, title='', show_depth=T
     # ax.set_extent((-1500000, 4000000, 3000000, 6000000), crs=ccrs.Mercator())
 
     if start is not None:
-        ax.plot(start[1], start[0], marker="o", markerfacecolor="orange", markeredgecolor="orange", markersize=10)
-        ax.plot(finish[1], finish[0], marker="o", markerfacecolor="orange", markeredgecolor="orange", markersize=10)
+        ax.plot(start[1], start[0], marker="o", markerfacecolor="red", markeredgecolor="red", markersize=10)
+        ax.plot(finish[1], finish[0], marker="o", markerfacecolor="red", markeredgecolor="red", markersize=10)
 
     if show_gcr:
         gcr = get_gcr_points(start[0], start[1], finish[0], finish[1], n_points=10)
         lats_gcr = [x[0] for x in gcr]
         lons_gcr = [x[1] for x in gcr]
-        ax.plot(lons_gcr, lats_gcr, color="orange")
+        ax.plot(lons_gcr, lats_gcr, color="red")
 
     plt.title(title)
 
