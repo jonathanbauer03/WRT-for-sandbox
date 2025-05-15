@@ -272,6 +272,7 @@ class IsoBased(RoutingAlg):
                         self.count += 1
                         continue
                 else:
+                    self.update_fig('p')
                     break
 
             elif self.route_reached_waypoint:
