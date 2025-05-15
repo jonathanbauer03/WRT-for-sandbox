@@ -358,7 +358,7 @@ class RouteParams():
         ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour,
                 markersize=10)
         return ax
-    
+
     def plot_route_with_depth(self, colour, label, linestyle=False):
         fig = self.fig
         fig, ax = graphics.generate_basemap(self.fig, self.depth, self.start,
@@ -373,9 +373,9 @@ class RouteParams():
             ax.plot(lons, lats, color=colour, label=label, linewidth=2)
 
         ax.plot(self.start[1], self.start[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, markersize=10)
-        ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, 
+        ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour,
                 markersize=10)
-        
+
         fig.canvas.draw()
         fig.canvas.flush_events()
         final_path = self.figure_path + '/fig' + str(
