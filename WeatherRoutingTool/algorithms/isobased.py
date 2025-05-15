@@ -272,7 +272,6 @@ class IsoBased(RoutingAlg):
                         self.count += 1
                         continue
                 else:
-                    self.update_fig('p')
                     break
 
             elif self.route_reached_waypoint:
@@ -306,6 +305,7 @@ class IsoBased(RoutingAlg):
         # ToDo: harmonize with above/merge with loop over routing steps
         if self.desired_number_of_routes == 1:
             self.final_pruning()
+            self.update_fig('p')
             route = self.terminate()
             return route
         else:
