@@ -373,13 +373,13 @@ class RouteParams():
             ax.plot(lons, lats, color=colour, label=label, linewidth=2)
 
         ax.plot(self.start[1], self.start[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, markersize=10)
-        ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour,
+        ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, 
                 markersize=10)
         
         fig.canvas.draw()
         fig.canvas.flush_events()
         final_path = self.figure_path + '/fig' + str(
-            self.count) + '_route_'  + '.png'
+            self.count) + '_route_' + '.png'
         logger.info('Save updated figure to ' + final_path)
         plt.savefig(final_path)
 
