@@ -8,6 +8,7 @@ from WeatherRoutingTool.constraints.constraints import ConstraintsListFactory, W
 from WeatherRoutingTool.constraints.route_postprocessing import RoutePostprocessing
 from WeatherRoutingTool.algorithms.routingalg_factory import RoutingAlgFactory
 from WeatherRoutingTool.utils.maps import Map
+import WeatherRoutingTool.routeparams
 
 
 def merge_figures_to_gif(path, nof_figures):
@@ -59,6 +60,7 @@ def execute_routing(config):
     min_fuel_route = min_fuel_route.execute_routing(boat, wt, constraint_list)
     # min_fuel_route.print_route()
     min_fuel_route.return_route_to_API(routepath + '/' + str(min_fuel_route.route_type) + ".json")
+    min_fuel_route.plot_route_with_depth("orange", "final route")
 
     if config.ROUTE_POSTPROCESSING:
         postprocessed_route = RoutePostprocessing(min_fuel_route, boat)
