@@ -61,7 +61,7 @@ def execute_routing(config):
     # min_fuel_route.print_route()
     min_fuel_route.return_route_to_API(routepath + '/' + str(min_fuel_route.route_type) + ".json")
     rp_read = min_fuel_route
-    rp_1_str = 'speedy isobased routing'
+    rp_1_str = 'final route'
     rp_list = [rp_read]
     rp_str_list = [rp_1_str]
     do_plot_route_function(rp_read, rp_list, rp_str_list, depthfile, True)
