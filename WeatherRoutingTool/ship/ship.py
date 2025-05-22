@@ -637,7 +637,7 @@ class Tanker(Boat):
     def load_data(self):
         self.use_depth_data = False
         # if self.use_depth_data:
-            # self.depth_data = mariPower.environment.EnvironmentalData_Depth(self.depth_path)
+        # self.depth_data = mariPower.environment.EnvironmentalData_Depth(self.depth_path)
 
         self.weather_adapter()
 
