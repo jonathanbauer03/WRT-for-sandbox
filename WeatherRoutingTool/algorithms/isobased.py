@@ -1192,6 +1192,7 @@ class IsoBased(RoutingAlg):
         final_path = self.figure_path + '/fig0.png'
         logger.info('Save start figure to ' + final_path)
         plt.savefig(final_path)
+        return self.depth
 
     def update_fig(self, status):
         if self.figure_path is None:

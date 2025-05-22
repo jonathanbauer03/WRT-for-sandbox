@@ -6,19 +6,19 @@
   "BOAT_DRAUGHT_AFT": 10,
   "BOAT_DRAUGHT_FORE": 10,
   "INTERMEDIATE_WAYPOINTS": [[43.171, -132.077], [55.483, -141.686]],
-  "CONSTRAINTS_LIST": ["land_crossing_global_land_mask","water_depth"],
+  "CONSTRAINTS_LIST": ["land_crossing_global_land_mask","water_depth", "on_map"],
 
   "TIME_FORECAST": 90,
   "ROUTING_STEPS": 60,
   "DELTA_TIME_FORECAST": 3,
   "DELTA_FUEL": 3000,
 
-  "COURSES_FILE": "C:/Users/JBA/WeatherRoutingTool/courses_file.nc",
-  "DEPTH_DATA": "C:/Users/JBA/Downloads/ETOPO_2022_v1_30s_N90W180_bed_Umbenannt_ohne_depth.nc",
-  "WEATHER_DATA": "C:/Users/JBA/WeatherRoutingTool/weather_data_region1.nc",
-  "ROUTE_PATH": "C:/Users/JBA/WeatherRoutingTool",
+  "COURSES_FILE": "C:/Users/JBA/WRT-for-sandbox",
+  "DEPTH_DATA": "C:/Users/JBA/WRT-sandbox/Data/depth_data_region1.nc",
+  "WEATHER_DATA": "C:/Users/JBA/WRT-sandbox/Data/weather_data_region1.nc",
+  "ROUTE_PATH": "C:/Users/JBA/WRT-for-sandbox",
 
-  "DATA_MODE": "automatic",
+  "DATA_MODE": "from_file",
 
   "ALGORITHM_TYPE": "speedy_isobased",
   "CONSTANT_FUEL_RATE":0.1,

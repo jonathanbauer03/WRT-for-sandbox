@@ -9,7 +9,7 @@ from WeatherRoutingTool.constraints.constraints import ConstraintsListFactory, W
 from WeatherRoutingTool.constraints.route_postprocessing import RoutePostprocessing
 from WeatherRoutingTool.algorithms.routingalg_factory import RoutingAlgFactory
 from WeatherRoutingTool.utils.maps import Map
-
+from compare_routes import do_plot_route_function
 
 def merge_figures_to_gif(path, nof_figures):
     graphics.merge_figs(path, nof_figures)
@@ -53,14 +53,18 @@ def execute_routing(config):
     # *******************************************
     # initialise route
     min_fuel_route = RoutingAlgFactory.get_routing_alg(config)
-    min_fuel_route.init_fig(water_depth=water_depth, map_size=default_map)
+    depthfile = min_fuel_route.init_fig(water_depth=water_depth, map_size=default_map)
 
     # *******************************************
     # routing
     min_fuel_route = min_fuel_route.execute_routing(boat, wt, constraint_list)
     # min_fuel_route.print_route()
     min_fuel_route.return_route_to_API(routepath + '/' + str(min_fuel_route.route_type) + ".json")
-
+    rp_read = min_fuel_route
+    rp_1_str = 'speedy isobased routing'
+    rp_list = [rp_read]
+    rp_str_list = [rp_1_str]
+    do_plot_route_function(rp_read, rp_list, rp_str_list, depthfile, True)
     if config.ROUTE_POSTPROCESSING:
         postprocessed_route = RoutePostprocessing(min_fuel_route, boat)
         min_fuel_route_postprocessed = postprocessed_route.post_process_route()

@@ -350,13 +350,13 @@ class RouteParams():
         lons = self.lons_per_step
 
         if linestyle:
-            ax.plot(lons, lats, color=colour, label=label, linewidth=2, linestyle='dashdot')
+            ax.plot(lons, lats, color=colour, label=label, linewidth=2.5, linestyle='dashdot')
         else:
-            ax.plot(lons, lats, color=colour, label=label, linewidth=2)
+            ax.plot(lons, lats, color=colour, label=label, linewidth=2.5)
 
-        ax.plot(self.start[1], self.start[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, markersize=10)
-        ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour,
-                markersize=10)
+        # ax.plot(self.start[1], self.start[0], marker="o", markerfacecolor=colour, markeredgecolor=colour, markersize=10)
+        # ax.plot(self.finish[1], self.finish[0], marker="o", markerfacecolor=colour, markeredgecolor=colour,
+        #        markersize=10)
         return ax
 
     def get_power_type(self, power_type):
