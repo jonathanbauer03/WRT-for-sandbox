@@ -11,6 +11,7 @@ from WeatherRoutingTool.algorithms.routingalg_factory import RoutingAlgFactory
 from WeatherRoutingTool.utils.maps import Map
 from compare_routes import do_plot_route_function
 
+
 def merge_figures_to_gif(path, nof_figures):
     graphics.merge_figs(path, nof_figures)
 

@@ -69,6 +69,7 @@ def plot_power_vs_dist_ratios(rp_list, rp_str_list, scenario_str, power_type='fu
     # plt.axhline(y=1, color='gainsboro', linestyle='-')
     plt.savefig(figurefile + '/' + power_type + '_vs_dist_ratios' + '.png')
 
+
 def do_plot_route_function(rp_read, rp_read_list, rp_str_list, depthfile, show_Depth=True):
     fig, ax = plt.subplots(figsize=graphics.get_standard('fig_size'))
     ax.axis('off')
@@ -80,7 +81,8 @@ def do_plot_route_function(rp_read, rp_read_list, rp_str_list, depthfile, show_D
         ax = rp_read_list[irp].plot_route(ax, 'orange', rp_str_list[irp])
     ax.legend()
     plt.savefig('/home/jovyan/Images-WRT' + '/fig_final_route.png')
-    
+
+
 if __name__ == "__main__":
     # Compare variations of resistances for specific routes
 
