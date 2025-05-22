@@ -272,8 +272,6 @@ class IsoBased(RoutingAlg):
                         self.count += 1
                         continue
                 else:
-                    self.pruning_per_step(True)
-                    self.update_fig('p')
                     break
 
             elif self.route_reached_waypoint:
