@@ -636,8 +636,8 @@ class Tanker(Boat):
 
     def load_data(self):
         self.use_depth_data = False
-        if self.use_depth_data:
-            self.depth_data = mariPower.environment.EnvironmentalData_Depth(self.depth_path)
+        # if self.use_depth_data:
+            # self.depth_data = mariPower.environment.EnvironmentalData_Depth(self.depth_path)
 
         self.weather_adapter()
 
@@ -693,7 +693,7 @@ class Tanker(Boat):
         logger.info(form.get_log_step('path to depth data' + self.depth_path, 1))
 
     def init_hydro_model_single_pars(self):
-        self.hydro_model = mariPower.ship.CBT()
+        # self.hydro_model = mariPower.ship.CBT()
         # shipSpeed = 13 * 1852 / 3600
         self.hydro_model.WindDirection = math.radians(90)
         self.hydro_model.WindSpeed = 0
