@@ -406,7 +406,7 @@ class RouteParams():
             ax.set_xlim(-100, right)
         else:
             # plt.ylabel(power["label"] + ' (t/km)')
-            plt.ylabel(power["label"])
+            plt.ylabel(power["label"] + '(kW)')
             plt.bar(
                 hist_values["bin_centres"].to(u.km).value,
                 hist_values["bin_contents"].to(u.tonne/u.kilometer).value,
@@ -430,7 +430,7 @@ class RouteParams():
 
             acc_bin_content = np.append(acc_bin_content, fuel_sum)
 
-        plt.xlabel('Weglänge (km)')
+        plt.xlabel('travel distance (km)')
         if power_type == 'power':
             plt.ylabel(power["label"] + ' (' + power["unit"] + ')')
             plt.bar(
@@ -440,7 +440,7 @@ class RouteParams():
                 fill=False, color=color, edgecolor=color, label=label, linewidth=1
             )
         else:
-            plt.ylabel('akkumulierter ' + power["label"] + ' (t)')
+            plt.ylabel('accumulated ' + power["label"] + ' (t)')
             plt.bar(
                 hist_values["bin_centres"].to(u.km).value,
                 acc_bin_content.to(u.tonne).value,
