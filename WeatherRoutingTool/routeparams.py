@@ -387,8 +387,7 @@ class RouteParams():
             hist_values["bin_contents"] = np.append(hist_values["bin_contents"], weighted_mean)
             hist_values["bin_widths"] = np.append(hist_values["bin_widths"], bin_width_mean)
 
-            # plt.ylabel(power["label"] + ' (kW)')
-            plt.ylabel(power["label"])
+            plt.ylabel(power["label"] + ' (kW)')
             plt.bar(
                 hist_values["bin_centres"].to(u.km).value,
                 hist_values["bin_contents"].to(u.kiloWatt).value,
@@ -405,8 +404,7 @@ class RouteParams():
             left, right = plt.xlim()
             ax.set_xlim(-100, right)
         else:
-            # plt.ylabel(power["label"] + ' (t/km)')
-            plt.ylabel(power["label"] + '(kW)')
+            plt.ylabel(power["label"] + ' (t/km)')
             plt.bar(
                 hist_values["bin_centres"].to(u.km).value,
                 hist_values["bin_contents"].to(u.tonne/u.kilometer).value,
